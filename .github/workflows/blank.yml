@@ -17,15 +17,12 @@ jobs:
           pwd
           ls -ltr /tmp/*.txt
           cat /tmp/sample.txt
-          mkdir ./target/staging
-          echo "Staging Sample file" > ./target/staging/Stage.txt
-          ls -ltr ./target/staging/
 
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SOURCE: "./target/staging/*.txt"
+          SOURCE: "/tmp/"
           REMOTE_HOST: "ec2-3-237-96-182.compute-1.amazonaws.com"
           REMOTE_USER: "ubuntu"
           TARGET: "/home/ubuntu/test"
