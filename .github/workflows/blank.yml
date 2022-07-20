@@ -1,0 +1,26 @@
+name: Push-to-EC2
+
+on: push
+
+jobs:
+  deploy:
+    name: Push to EC2 Instance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v1
+      
+      - name: Create a Sample File
+        run: |
+          echo "Sample Source Text file" > /tmp/sample.txt
+          cat /tmp/sample.txt
+
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: "/tmp/*.txt"
+          REMOTE_HOST: "ec2-3-237-96-182.compute-1.amazonaws.com"
+          REMOTE_USER: "ubuntu"
+          TARGET: "/home/ubuntu/test"
